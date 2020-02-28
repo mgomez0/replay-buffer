@@ -126,5 +126,3 @@ module fifo_tb;
 
    
 endmodule
-
-endmodule
