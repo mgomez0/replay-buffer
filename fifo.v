@@ -1,112 +1,71 @@
 `timescale 1ns / 1ps
 
-module fifo( Clk, 
-                    
-                   dataIn, 
+module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full); 
 
-                   RD, 
+input  clk, rd, wr, en, rst;
 
-                   WR, 
+output  empty, full;
 
-                   EN, 
+input   [15:0]    data_in;
 
-                   dataOut, 
+output reg [15:0] data_out; // internal registers 
 
-                   Rst,
-
-                   EMPTY, 
-
-                   FULL 
-
-                   ); 
-
-input  Clk, 
-
-       RD, 
-
-       WR, 
-
-       EN, 
-
-       Rst;
-
-output  EMPTY, 
-
-        FULL;
-
-input   [15:0]    dataIn;
-
-output reg [15:0] dataOut; // internal registers 
-
-reg [11:0]  Count = 0; 
+reg [11:0]  count = 0; 
 
 reg [15:0] FIFO [0:4095]; 
 
-reg [11:0]  readCounter = 0, 
+reg [11:0]      read_counter = 0, 
+                write_counter = 0; 
 
-           writeCounter = 0; 
+assign empty = (count==0)? 1'b1:1'b0; 
 
-assign EMPTY = (Count==0)? 1'b1:1'b0; 
+assign full = (count==4096)? 1'b1:1'b0; 
 
-assign FULL = (Count==4096)? 1'b1:1'b0; 
-
-always @ (posedge Clk) 
+always @ (posedge clk) 
 
 begin 
 
- if (EN==0); 
+if (en==0); 
 
- else begin 
+else begin 
 
-  if (Rst) begin 
+if (rst) 
+	begin 
+		read_counter = 0; 
+		write_counter = 0; 
+	end 
 
-   readCounter = 0; 
+else if (rd ==1'b1 && count!=0) 
+	begin 
+		data_out  = FIFO[read_counter]; 
+   		read_counter = read_counter+1; 
+  	end 
 
-   writeCounter = 0; 
+else if (wr==1'b1 && count<4096) 
+	begin
+   		FIFO[write_counter]  = data_in; 
+   		write_counter  = write_counter+1; 
+  	end 
 
-  end 
-
-  else if (RD ==1'b1 && Count!=0) begin 
-
-   dataOut  = FIFO[readCounter]; 
-
-   readCounter = readCounter+1; 
-
-  end 
-
-  else if (WR==1'b1 && Count<8) begin
-   FIFO[writeCounter]  = dataIn; 
-
-   writeCounter  = writeCounter+1; 
-
-  end 
-
-  else; 
-
- end 
-
- if (writeCounter==4096) 
-
-  writeCounter=0; 
-
- else if (readCounter==4096) 
-
-  readCounter=0; 
-
- else;
-
- if (readCounter > writeCounter) begin 
-
-  Count=readCounter-writeCounter; 
-
- end 
-
- else if (writeCounter > readCounter) 
-
-  Count=writeCounter-readCounter; 
-
- else;
-
+else; 
 end 
 
+if (write_counter==4096) 
+	write_counter=0; 
+
+else if (read_counter==4096) 
+	read_counter=0; 
+
+else;
+
+if (read_counter > write_counter) 
+	begin 
+  		count=read_counter-write_counter; 
+	 end 
+
+else if (write_counter > read_counter) 
+	count=write_counter-read_counter; 
+
+else;
+end 
 endmodule
