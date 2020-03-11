@@ -22,7 +22,7 @@ module fifo_tb;
 
  wire empty;
 
- wire full;
+ wire full;                                                                                                                                                                                         
 
  // Instantiate the Unit Under Test (UUT)
 
