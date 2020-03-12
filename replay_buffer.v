@@ -14,5 +14,8 @@ if busy_n == 0;
 else begin
 ready = 1;
 
-
+//00 = not received
+//01 = ack
+//10 = nack
+//dllp: 32 bits + 16 bit CRC
 
