@@ -4,7 +4,7 @@ module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full);
 
 input  clk, rd, wr, en, rst;
 
-output  empty, full;
+//output  empty, full;
 
 input   [15:0]    data_in;
 
@@ -17,9 +17,10 @@ reg [15:0] FIFO [0:4095];
 reg [11:0]      read_counter = 0, 
                 write_counter = 0; 
 
-assign empty = (count==0)? 1'b1:1'b0; 
+// empty and full signals not necessary for replay buffer design
+// assign empty = (count==0)? 1'b1:1'b0; 
 
-assign full = (count==4096)? 1'b1:1'b0; 
+// assign full = (count==4096)? 1'b1:1'b0; 
 
 always @ (posedge clk) 
 
@@ -61,7 +62,7 @@ else;
 if (read_counter > write_counter) 
 	begin 
   		count=read_counter-write_counter; 
-	 end 
+	end 
 
 else if (write_counter > read_counter) 
 	count=write_counter-read_counter; 
