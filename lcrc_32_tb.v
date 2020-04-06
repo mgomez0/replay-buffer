@@ -12,6 +12,7 @@ module lcrc_32_tb;
         in_t = 85;      // This is the same as "01010101", a randomly chosen number
         reset_t = 0;    // We do not need to reset
         clk_t = 0;      // Initializing the clk
+    end
 
         always #5 clk_t = ~clk_t;
 
