@@ -2,7 +2,7 @@
 // The hex it is being encrypted with is 0 4 C 1 1 D B 7.
 // Once lcrc_31 is called, it takes the inputted paacket, creates a crc, then it outputs the inputted packet plus the crc added onto the end
 
-module lcrc_31 (in, reset, clk, final_out);
+module lcrc_32 (in, reset, clk, final_out);
  
 	parameter WIDTH = 8;					// The number of bits in the passed in packet
     input [(WIDTH-1):0] in;					// The register to hold the inputted packet
