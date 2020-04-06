@@ -12,11 +12,14 @@ module lcrc_32_tb;
         in_t = 85;      // This is the same as "01010101", a randomly chosen number
         reset_t = 0;    // We do not need to reset
         clk_t = 0;      // Initializing the clk
+
+        always #5 clk_t = ~clk_t;
+
+        initial #500 $finish;
         
-        $monitor($time, " ns \nreset = %b \nclk = %b \nin_t = %b \nfinal_out (binary) = %b \nfinal_out(integer) = %d\n\n", reset_t, clk_t, in_t, final_out_t, final_out_t);
-        for (i = 0; i < (WIDTH-1); i++) begin
-            #5 clk_t = ~clk_t;
-        end
+        initial
+            $monitor($time, " ns \nreset = %b \nclk = %b \nin_t = %b \nfinal_out (binary) = %b \nfinal_out(integer) = %d\n\n", reset_t, clk_t, in_t, final_out_t, final_out_t);
+
          // Dump all waveforms to d_latch.vcd
         initial
         begin
