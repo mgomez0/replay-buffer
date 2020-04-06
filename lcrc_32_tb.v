@@ -27,5 +27,4 @@ module lcrc_32_tb;
             $dumpfile("lcrc_32.vcd");
 	        $dumpvars(0, lcrc_32_tb);	 
         end // initial begin
-    end
 endmodule
