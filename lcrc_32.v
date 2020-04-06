@@ -1,8 +1,8 @@
-// This module creates a 32 bit lfsr_32
+// This module creates a 31 bit lfsr_31
 // The hex it is being encrypted with is 0 4 C 1 1 D B 7.
-// Once lcrc_32 is called, it takes the inputted paacket, creates a crc, then it outputs the inputted packet plus the crc added onto the end
+// Once lcrc_31 is called, it takes the inputted paacket, creates a crc, then it outputs the inputted packet plus the crc added onto the end
 
-module lcrc_32 (in, reset, clk, final_out);
+module lcrc_31 (in, reset, clk, final_out);
  
 	parameter WIDTH = 8;					// The number of bits in the passed in packet
     input [(WIDTH-1):0] in;					// The register to hold the inputted packet
@@ -18,7 +18,7 @@ module lcrc_32 (in, reset, clk, final_out);
         if (reset) begin
             final_out <= in;						// Sets output to 0, effectively negating the CRC generation outright, as well as resetting the input
  
-		// Else the lcrc_32 generates a 32-bit CRC code
+		// Else the lcrc_31 generates a 31-bit CRC code
         end 
         else begin
 			input_primer(in, buffer);		// Primes the inputted packet for use in the CRC and places it in the buffer register
@@ -61,33 +61,33 @@ module lcrc_32 (in, reset, clk, final_out);
 		    counter = WIDTH-1;
 		    temp = 0;
 			repeat (WIDTH) begin
-				temp[0] <= (temp[32] ^ primed_in[counter]); 
-				temp[1] <= (temp[32] ^ primed_in[counter]) ^ temp[0];
-				temp[2] <= (temp[32] ^ primed_in[counter]) ^ temp[1];
+				temp[0] <= (temp[31] ^ primed_in[counter]); 
+				temp[1] <= (temp[31] ^ primed_in[counter]) ^ temp[0];
+				temp[2] <= (temp[31] ^ primed_in[counter]) ^ temp[1];
 				temp[3] <= temp[2];
-				temp[4] <= (temp[32] ^ primed_in[counter]) ^ temp[3];
-				temp[5] <= (temp[32] ^ primed_in[counter]) ^ temp[4];
+				temp[4] <= (temp[31] ^ primed_in[counter]) ^ temp[3];
+				temp[5] <= (temp[31] ^ primed_in[counter]) ^ temp[4];
 				temp[6] <= temp[5];
-				temp[7] <= (temp[32] ^ primed_in[counter]) ^ temp[6];
-				temp[8] <= (temp[32] ^ primed_in[counter]) ^ temp[7];
+				temp[7] <= (temp[31] ^ primed_in[counter]) ^ temp[6];
+				temp[8] <= (temp[31] ^ primed_in[counter]) ^ temp[7];
 				temp[9] <= temp[8];
-				temp[10] <= (temp[32] ^ primed_in[counter]) ^ temp[9];
-				temp[11] <= (temp[32] ^ primed_in[counter]) ^ temp[10];
-				temp[12] <= (temp[32] ^ primed_in[counter]) ^ temp[11];
+				temp[10] <= (temp[31] ^ primed_in[counter]) ^ temp[9];
+				temp[11] <= (temp[31] ^ primed_in[counter]) ^ temp[10];
+				temp[12] <= (temp[31] ^ primed_in[counter]) ^ temp[11];
 				temp[13] <= temp[12];
 				temp[14] <= temp[13];
 				temp[15] <= temp[14];
-				temp[16] <= (temp[32] ^ primed_in[counter]) ^ temp[15];
+				temp[16] <= (temp[31] ^ primed_in[counter]) ^ temp[15];
 				temp[17] <= temp[16];
 				temp[18] <= temp[17];
 				temp[19] <= temp[18];
 				temp[20] <= temp[19];
 				temp[21] <= temp[20];
-				temp[22] <= (temp[32] ^ primed_in[counter]) ^ temp[21];
-				temp[23] <= (temp[32] ^ primed_in[counter]) ^ temp[22];
+				temp[22] <= (temp[31] ^ primed_in[counter]) ^ temp[21];
+				temp[23] <= (temp[31] ^ primed_in[counter]) ^ temp[22];
 				temp[24] <= temp[23];
 				temp[25] <= temp[24];
-				temp[26] <= (temp[32] ^ primed_in[counter]) ^ temp[25];
+				temp[26] <= (temp[31] ^ primed_in[counter]) ^ temp[25];
 				temp[27] <= temp[26];
 				temp[28] <= temp[27];
 				temp[29] <= temp[28];
@@ -108,14 +108,14 @@ endmodule    // End of module
 
 
 // // This is the testbench for the above lcrc
-// module lcrc_32_tb;
+// module lcrc_31_tb;
 //     parameter WIDTH = 8;
 //     reg [(WIDTH-1):0] in_t;
 //     reg reset_t, clk_t;
 //     wire [(WIDTH+31):0] final_out_t = 0;
 //     integer i;
         
-//     lcrc_32 pepsi(in_t, reset_t, clk_t, final_out_t);
+//     lcrc_31 pepsi(in_t, reset_t, clk_t, final_out_t);
     
 //     initial begin
 //         in_t = 85;      // This is the same as "01010101", a randomly chosen number
@@ -129,8 +129,8 @@ endmodule    // End of module
 //          // Dump all waveforms to d_latch.vcd
 //         initial
 //         begin
-//             $dumpfile("lcrc_32.vcd");
-// 	        $dumpvars(0, lcrc_32_tb);	 
+//             $dumpfile("lcrc_31.vcd");
+// 	        $dumpvars(0, lcrc_31_tb);	 
 //         end // initial begin
 //     end
 // endmodule
