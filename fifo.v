@@ -1,8 +1,12 @@
 `timescale 1ns / 1ps
 
-module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full); 
+module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full, seq); 
 
-input  clk, rd, wr, en, rst;
+input  clk, wr, en, rst;
+
+input [1:0] rd;
+
+input [11:0] seq;
 
 //output  empty, full;
 
