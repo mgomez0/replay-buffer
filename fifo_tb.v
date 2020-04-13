@@ -4,109 +4,89 @@ module fifo_tb;
 
  // Inputs
 
- reg Clk;
+ reg clk;
 
- reg [15:0] dataIn;
+ reg [15:0] data_in;
 
- reg RD;
+ reg rd;
 
- reg WR;
+ reg wr;
 
- reg EN;
+ reg en;
 
- reg Rst;
+ reg rst;
 
  // Outputs
 
- wire [15:0] dataOut;
+ wire [15:0] data_out;
 
- wire EMPTY;
+ wire empty;
 
- wire FULL;
+ wire full;                                                                                                                                                                                         
 
  // Instantiate the Unit Under Test (UUT)
 
- fifo uut (
-
-                  .Clk(Clk), 
-
-                  .dataIn(dataIn), 
-
-                  .RD(RD), 
-
-                  .WR(WR), 
-
-                  .EN(EN), 
-
-                  .dataOut(dataOut), 
-
-                  .Rst(Rst), 
-
-                  .EMPTY(EMPTY), 
-
-                  .FULL(FULL)
-
-                  );
+ fifo uut (.clk(clk), .data_in(data_in), .rd(rd), .wr(wr), .en(en), .data_out(data_out), .rst(rst), .empty(empty), .full(full));
 
  initial begin
 
   // Initialize Inputs
 
-  Clk  = 1'b0;
+   clk  = 1'b0;
 
-  dataIn  = 16'h0;
+   data_in  = 16'h0;
 
-  RD  = 1'b0;
+   rd  = 1'b0;
 
-  WR  = 1'b0;
+   wr  = 1'b0;
 
-  EN  = 1'b0;
+   en  = 1'b0;
 
-  Rst  = 1'b1;
+   rst  = 1'b1;
 
-  // Wait 100 ns for global reset to finish
+   // Wait 100 ns for global reset to finish
 
-  #100;        
+   #100;        
 
-  // Add stimulus here
+   // Add stimulus here
 
-  EN  = 1'b1;
+   en  = 1'b1;
 
-  Rst  = 1'b1;
+   rst  = 1'b1;
 
-  #20;
+   #20;
 
-  Rst  = 1'b0;
+   rst  = 1'b0;
 
-  WR  = 1'b1;
+   wr  = 1'b1;
 
-  dataIn  = 16'h0;
+   data_in  = 16'h0;
 
-  #20;
+   #20;
 
-  dataIn  = 16'h1;
+   data_in  = 16'h1;
 
-  #20;
+   #20;
 
-  dataIn  = 16'h2;
+   data_in  = 16'h2;
 
-  #20;
+   #20;
 
-  dataIn  = 16'h3;
+   data_in  = 16'h3;
 
-  #20;
+   #20;
 
-  dataIn  = 16'h4;
+   data_in  = 16'h4;
 
-  #20;
+   #20;
 
-  WR = 1'b0;
+   wr = 1'b0;
 
-  RD = 1'b1;  
+   rd = 1'b1;  
 
- end 
+   end 
 
-   always #10 Clk = ~Clk;    
+   always #10 clk = ~clk;    
 
 // Run simulation for 500 ns.  
    initial #500 $finish;
@@ -119,7 +99,7 @@ module fifo_tb;
       end // initial begin
    
    initial 
-      $monitor ($time, "ns, dataIn=%H, dataOut=%h, RD=%h, WR=%h, EN=%h, Rst=%h",dataIn, dataOut, RD,WR, EN, Rst);
+      $monitor ($time, "ns, data_in=%H, data_out=%h, rd=%h, wr=%h, en=%h, rst=%h",data_in, data_out, rd,wr, en, rst);
    
   
    
