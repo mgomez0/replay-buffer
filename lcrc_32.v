@@ -38,7 +38,8 @@ module lcrc_32 (in, reset, clk, final_out);
 				primed[i + 6] = in[i + 1];
 				primed[i + 7] = in[i + 0];
 			end
-
+			end
+		endtask
 	
 	
 	// This task takes the primed input and creates a crc code, which it returns
@@ -86,4 +87,4 @@ module lcrc_32 (in, reset, clk, final_out);
 			end
 		end
 	endtask	
-	
+endmodule	
