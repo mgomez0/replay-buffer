@@ -1,3 +1,4 @@
+`timescale 1ns / 1ns
 module FSM(reset_n, clk, busy_n, we_i, to_i, acknak_i,
            rst, we_o, to_o, rdy_i, rdy_o, busy_n_o,
            acknak_o, crc_num, seq, count, num_to_rep, rep);
