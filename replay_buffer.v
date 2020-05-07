@@ -12,17 +12,18 @@ wire [15:0] mux_output;
 wire [11:0] num_to_rep;
 wire[11:0] replay_index;
 wire rep;
+wire rdy;
 
 
 wire reset_internal, we_internal, rdy_internal, to_internal, ack_nack_internal;
 
 fifo mem1(.clk(clk), .data_in(mux_output), .data_out(dout), .rd(ack_nack_internal), .wr(we_internal), .en(busy_n), 
             .rst(reset_internal), .seq(seq), .tim_out(to_internal), .empty(1'bz), .full(1'bz),
-            .num_packets_to_replay(num_to_rep), .replay_index(replay_index), .rep(rep));
+            .num_packets_to_replay(num_to_rep), .replay_index(replay_index), .rep(rep), .rdy(rdy));
 
 FSM control(.reset_n(reset_n), .clk(clk), .busy_n(busy_n), .we_i(we), .seq(seq),
 .to_i(tim_out), .acknak_i(ack_nack), .rst(reset_internal), .we_o(we_internal), .to_o(to_internal), 
-.rdy(ready), .busy_n_o(1'bz), .acknak_o(ack_nack_internal), .crc_num(crc_num), .num_to_rep(num_to_rep), .count(replay_index),
+.rdy_i(rdy), .rdy_o(ready), .busy_n_o(1'bz), .acknak_o(ack_nack_internal), .crc_num(crc_num), .num_to_rep(num_to_rep), .count(replay_index),
 .rep(rep)); //crc_num output control signal to mux
 
 lcrc_32 crc(.in(data_in), .reset(reset_internal), .clk(clk), .final_out(crc_output));
