@@ -25,7 +25,7 @@ control FSM(.reset_n(reset_n), .clk(clk), .busy_n(busy_n), .we_i(we), .seq(seq),
 
 crc lcrc_32(.in(data_in), .reset(reset_internal), .clk(clk), .final_out(crc_output));
 
-mx mux10(.d0(crc_output[15:0]), .d1(crc_output[31:16]), .d2(crc_output[47:32]), .d3(crc_output[63:48]), .d4(crc_output[79:64]), 
+mx MUX10(.d0(crc_output[15:0]), .d1(crc_output[31:16]), .d2(crc_output[47:32]), .d3(crc_output[63:48]), .d4(crc_output[79:64]), 
     .d5(crc_output[95:80]), .d6(crc_output[111:96]), .d7(crc_output[127:112]), .d8(crc_output[143:128]), .d9(crc_output[159:144]),
     .s(crc_num), .y(mux_output));
 
