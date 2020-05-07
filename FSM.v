@@ -9,8 +9,8 @@ reg         rst, we_o, to_o, rdy, busy_n_o;
 
 parameter s0 = 3'b000, s1 = 3'b001, s2 = 3'b010, s3 = 3'b011, s4 = 3'b100, s5 = 3'b101;
 
-//what to do when clock or reset goes high
-always @(posedge clk or posedge reset_n)
+//what to do when clock goes high or reset goes low 
+always @(posedge clk or negedge reset_n)
 begin
   if(!reset_n)
     cs <= s0;
