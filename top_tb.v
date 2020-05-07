@@ -1,8 +1,8 @@
 `timescale 1ns / 1ns
 module top_tb;
 
-reg        tim_out, ready, we, busy_n, clk;
-reg[1:0]   acknak;
+reg        tim_out, ready, we, busy_n, clk, reset_n;
+reg[1:0]   ack_nack;
 reg[11:0]  seq;
 reg[127:0] din;
 
