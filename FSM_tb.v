@@ -48,5 +48,3 @@ initial begin
 		$dumpvars(0, FSM_tb);
 	end
 endmodule
-
-endmodule
