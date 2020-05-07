@@ -15,7 +15,7 @@ wire rep;
 wire rdy;
 wire[1:0] ack_nack_internal;
 
-wire reset_internal, we_internal, rdy_internal, to_internal
+wire reset_internal, we_internal, rdy_internal, to_internal;
 
 fifo mem1(.clk(clk), .data_in(mux_output), .data_out(dout), .rd(ack_nack_internal), .wr(we_internal), .en(busy_n), 
             .rst(reset_internal), .seq(seq), .tim_out(to_internal),
