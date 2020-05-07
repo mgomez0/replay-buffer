@@ -8,7 +8,7 @@ input [1:0] rd;
 
 input [11:0] seq;
 
-//output  empty, full;
+output  empty, full;
 
 input   [15:0]    data_in;
 
@@ -54,7 +54,7 @@ else
 													 	// with DLLP to purged replay buffer of received packets
 					begin
 						read_counter = read_counter + seq;
-						ready = 0;
+						rdy = 0;
 					end
 				
 				else if (rd ==2'b10 && count != 0 && !wr) 	// receiver sends NACK DLLP, retransmit all TLP in buffer with EARLIER
