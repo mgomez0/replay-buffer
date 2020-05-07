@@ -43,4 +43,10 @@ begin
   #10 $stop;                         //end
 end
 
+initial begin
+		$dumpfile("FSM.vcd");
+		$dumpvars(0, FSM_tb);
+	end
+endmodule
+
 endmodule
