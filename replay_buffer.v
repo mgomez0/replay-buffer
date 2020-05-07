@@ -16,7 +16,7 @@ wire[11:0] replay_index;
 wire reset_internal, we_internal, rdy_internal, to_internal, ack_nack_internal;
 
 mem1 fifo(.clk(clk), .data_in(mux_output), .data_out(dout), .rd(ack_nack_internal), .wr(we_internal), .en(busy_n), 
-            .data_out(dout), .rst(reset_internal), .seq(seq), .tim_out(to_internal), .empty(1'bz), .full(1'bz)
+            .data_out(dout), .rst(reset_internal), .seq(seq), .tim_out(to_internal), .empty(1'bz), .full(1'bz),
             .last_seq_written(num_to_rep), .replay_index(replay_index));
 
 control FSM(.reset_n(reset_n), .clk(clk), .busy_n(busy_n), .we_i(we), .seq(seq)
