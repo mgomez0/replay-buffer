@@ -21,8 +21,8 @@ begin
   din = 128'h400000010000000ffdaff04012345678; //memory write request TLP
   #1 reset_n = 1;                    //Turn off reset, active low
   #9;                                //Exit s0
-  #1 we_i = 1;                       //Enter s1, count to 0, trigger we_i for s2
-  #9 we_i = 0;                       //Exit s1, we_i off 
+  #1 we = 1;                       //Enter s1, count to 0, trigger we_i for s2
+  #9 we = 0;                       //Exit s1, we_i off 
   // #20;                               //Enter s2, send crc_num for mux, exit s2
   // #20;                               //Enter s2w, incrament count by 1, exit state s2w
   // #380;                              //Repeat 8 more times, exit to s1
