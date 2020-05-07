@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full, seq, tim_out, rdy, last_seq_written, num_packets_to_replay ); 
+module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full, seq, tim_out, rdy,num_packets_to_replay, replay_index ); 
 
 input  clk, wr, en, rst, tim_out;
 
@@ -16,7 +16,7 @@ output reg [15:0] data_out; // internal registers
 
 output reg rdy;
 
-output reg [11:0] last_seq_written = 0;
+reg [11:0] last_seq_written = 0;
 
 output reg [11:0] num_packets_to_replay;
 
@@ -65,7 +65,8 @@ else
 				else if ( (tim_out || rd == 2'b10) && count != 0 && !wr ) 											
 					begin
 						read_counter = read_counter + (seq * 10);
-						num_packets_to_replay = last_seq_written - seq;  									    
+						
+						num_packets_to_replay = ((last_seq_written - seq)*10) -1;
 					end							
 				else if (rep && !wr)
 					begin

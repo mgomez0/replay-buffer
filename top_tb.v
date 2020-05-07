@@ -1,16 +1,15 @@
 `timescale 1ns / 1ns
 module top_tb;
 
-reg        reset_n, clk, busy_n, we_i, to_i, rdy_i;
-reg[1:0]   acknak_i;
-reg[11:0]  seq, num_to_rep;
+reg        tim_out, ready, we, busy_n, clk;
+reg[1:0]   acknak;
+reg[11:0]  seq;
+reg[15:0] din;
 
-wire       rst, we_o, to_o, rdy_o, busy_n_o, rep;
-wire[1:0]  acknak_o;
-wire[3:0]  crc_num;
-wire[11:0] count;
+wire ready;
+wire[15:0] dout;
 
-FSM u1(reset_n, clk, busy_n, we_i, to_i, acknak_i, rst, we_o, to_o, rdy_i, rdy_o, busy_n_o, acknak_o, crc_num, seq, count, num_to_rep, rep);
+replay_buffer u1 (busy_n, clk, reset_n, ack_nack, seq, tim_out, ready, we, din, dout);
 
 initial clk = 0;
 always #10 clk = ~clk;
