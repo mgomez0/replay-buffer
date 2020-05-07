@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 
 module fifo(clk, data_in, rd, wr, en, data_out, rst, empty, full, seq, tim_out, rdy,num_packets_to_replay, replay_index ); 
 

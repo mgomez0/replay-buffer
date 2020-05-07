@@ -2,7 +2,7 @@
 // Date: 04/11/2020
 // Description: This program takes an inputted packet, inverts the individual bits in each byte of a copy of the inputted packet, 
 // generates a crc code from the copy, then inverts the bytes of the generated crc, attaches the finished crc
-
+`timescale 1ns / 1ns
 module lcrc_32 (in, reset, clk, final_out);
  
 	parameter PACKET_SIZE = 128;				// The number of bits in the passed in packet
