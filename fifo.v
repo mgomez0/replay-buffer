@@ -16,6 +16,8 @@ output reg [15:0] data_out; // internal registers
 
 output reg rdy;
 
+output reg [11:0] replay_ctr = 0;
+
 reg [11:0]  count = 0; 
 
 reg [15:0] FIFO [0:4095]; 
@@ -46,7 +48,7 @@ else
 		
 		else if (tim_out) // timeout event will cause retraining, but will preserve state of buffer
 			begin
-				data_out = 0;
+				data_out = FIFO[seq[11:0] - 1];
 				rdy = 1;
 			end
 
@@ -62,14 +64,16 @@ else
 				else if (rd ==2'b10 && count != 0 && !wr) 	// receiver sends NACK DLLP, retransmit all TLP in buffer with EARLIER
 															//sequence number than seq[11:0] supplied with NACK DLLP										
 					begin
-						data_out = FIFO[seq[11:0] - 1];     // not sure about this - how do I retransmit the contents of the buffer,
+						data_out = FIFO[seq[11:0] - 1];  
+		 												    // not sure about this - how do I retransmit the contents of the buffer,
 					end										// 16 bits at a time, for every TLP?
 
 				else if (wr==1'b1 && count<4096) 
 					
 					begin
 						FIFO[write_counter]  = data_in; 	// Also not sure about this - the data will have to be written in 16 bits
-						write_counter  = write_counter+1; 	// at a time.
+						write_counter  = write_counter + seq; 	// at a time.
+						replay_ctr = replay_ctr + 1;
 					end 
 
 				if (write_counter == 4096) 

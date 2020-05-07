@@ -5,7 +5,7 @@
 
 module lcrc_32 (in, reset, clk, final_out);
  
-	parameter PACKET_SIZE = 32;					// The number of bits in the passed in packet
+	parameter PACKET_SIZE = 128;				// The number of bits in the passed in packet
     input [(PACKET_SIZE-1):0] in;				// The register to hold the inputted packet
     input reset, clk;							// Input signals reset to disable the crc and clk to keep in running with the clock
     output reg [(PACKET_SIZE+31):0] final_out;	// The register to hold the inputted packet plus the CRC added on in the end
