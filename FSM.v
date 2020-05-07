@@ -1,13 +1,18 @@
-module FSM(reset_n, clk, busy_n, we_i, to_i, acknak_i, rst, we_o, to_o, rdy, busy_n_o, acknak_o);
-input       reset_n, clk, busy_n, we_i, to_i;
-input[1:0]  acknak_i;
-output      rst, we_o, to_o, rdy, busy_n_o;
-output[1:0] acknak_o;
-reg[2:0]    cs, ns;
-reg[1:0]    acknak_o;
-reg         rst, we_o, to_o, rdy, busy_n_o;
+module FSM(reset_n, clk, busy_n, we_i, to_i, acknak_i, rst, we_o, to_o, rdy_i, rdy_o, busy_n_o, acknak_o, crc_num, seq, count, num_to_rep, rep);
+input        reset_n, clk, busy_n, we_i, to_i, rdy_i;
+input[1:0]   acknak_i;
+input[11:0]  seq, num_to_rep;
+output       rst, we_o, to_o, rdy_o, busy_n_o, rep;
+output[1:0]  acknak_o;
+output[3:0]  crc_num;
+output[11:0] count;
+reg[3:0]     cs, ns;
+reg[1:0]     acknak_o;
+reg[11:0]    count, count_to;
+reg[3:0]     crc_num = 0;
+reg          rst, we_o, to_o, rdy_o, busy_n_o, rep;
 
-parameter s0 = 3'b000, s1 = 3'b001, s2 = 3'b010, s3 = 3'b011, s4 = 3'b100, s5 = 3'b101;
+parameter s0 = 4'b0000, s1 = 4'b0001, s2 = 4'b0010, s3 = 4'b0011, s4 = 4'b0100, s5 = 4'b0101, s2w = 4'b0110, s4ra = 4'b0111, s4rb = 4'b1000;
 
 //what to do when clock or reset goes high
 always @(posedge clk or posedge reset_n)
@@ -22,19 +27,37 @@ end
 always @(cs or we_i or acknak_i or to_i or busy_n)
 begin
   case(cs)
+//Reset state s0: send rst for one clock cycle, move to s1
   s0:       ns <= s1;
        
+//Idle state s1: forward rdy signal from FIFO. Await we_i, acknak_i, or to_i signals. Set count to 0.
   s1:       if(we_i)                               ns <= s2;
             else if(acknak_i == 2'b01)             ns <= s3;
             else if((acknak_i == 2'b10) || to_i)   ns <= s4;                
-       
-  s2:       ns <= s1;
-       
+
+//Write state s2: set crc_num to count which controlls the mux. Exit to substate s2w.
+  s2:       ns <= s2w; 
+
+//Write substate s2w: incraments the count by 1. If count is >= 9, then exit to state s1. Otherwise, repeat state s2.
+//Goal is to write all QTY=10 16-bit sections of a TLP.
+  s2w:      if(count >= 4'b1001) ns <= s1;
+            else ns <= s2;
+
+//Advance read pointer state s3: forward ACK to FIFO to advance the read pointer. Exit to state s1.
   s3:       ns <= s1;
-       
+
+//Replay event state s4: Forward NAK or TO to FIFO to get num_to_rep in return. Calculate num_to_rep*10 = count_to. Exit to state s5.
   s4:       ns <= s5;
 
-  s5:       if(!busy_n) ns <= s1;
+//Replay event substate s4ra: Forward count to FIFO for index. Also send rep=1 to FIFO for state ID. Exit to substate s4rb
+  s4ra:     ns <= s4rb;
+
+//Replay event substate s4rb: incrament counter. If Counter is >= 39, then exit to idle state s1. Otherwise repeat substate s4ra. 
+  s4rb:     if(count >= count_to) ns <= s1;
+            else                  ns <= s4ra;
+        
+//Busy_n state s5: await busy_n to go high from physical layer (TB), then exit to s4ra.
+  s5:       if(busy_n)  ns <= s4ra;
             else        ns <= s5;
        
   default:  ns <= s0;
@@ -46,23 +69,45 @@ end
 always @(cs)
 begin
   case(cs)
-    s0:      {rst,rdy,we_o,to_o,acknak_o,busy_n_o} <= 7'b1000001;
+    s0:      {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b10001000;
         
-    s1:      {rst,rdy,we_o,to_o,acknak_o,busy_n_o} <= 7'b0100001;
-    
-    s2:      {rst,rdy,we_o,to_o,acknak_o,busy_n_o} <= 7'b0010001;
-
-    s3:      {rst,rdy,we_o,to_o,acknak_o,busy_n_o} <= 7'b0000011;
-        
-    s4:      begin
-             {rst,rdy,we_o,busy_n_o} <= 4'b0001;
-             to_o                    <= to_i;
-             acknak_o                <= acknak_i;
+    s1:      begin
+             {rst,we_o,to_o,busy_n_o,rep,acknak_o} <= 7'b0001000;
+             rdy_o <= rdy_i;
+             count <= 0;
              end
 
-    s5:      {rst,rdy,we_o,to_o,acknak_o,busy_n_o} <= 7'b0000000;
+    s2:      begin
+	         {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b01001000;
+             crc_num <= count;
+             end   
+
+    s2w:     begin
+	         {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b00001000;
+             count <= count + 1;
+             end
+
+    s3:      {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b00001001;
         
-    default: {rst,rdy,we_o,to_o,acknak_o,busy_n_o} <= 7'b1000001;
+    s4:      begin
+             {rst,we_o,rdy_o,busy_n_o,rep} <= 5'b00010;
+             to_o                      <= to_i;
+             acknak_o                  <= acknak_i;
+             end
+
+    s4ra:    {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b00001100;
+
+    s4rb:    begin
+             {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b00001000;
+             count = count + 1;
+             end
+
+    s5:      begin
+             {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b00100010;
+             count_to                                    <= num_to_rep;
+             end
+        
+    default: {rst,we_o,to_o,rdy_o,busy_n_o,rep,acknak_o} <= 8'b10001000;
   endcase
 end
 
