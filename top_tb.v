@@ -18,7 +18,7 @@ initial
 begin
   {reset_n, busy_n, we, tim_out, acknak, ready} = 7'b0100000;
   seq = 0;
-  din = 128'h400000010000000ffdaff04012345678 //memory write request TLP
+  din = 128'h400000010000000ffdaff04012345678; //memory write request TLP
   #1 reset_n = 1;                    //Turn off reset, active low
   #9;                                //Exit s0
   #1 we_i = 1;                       //Enter s1, count to 0, trigger we_i for s2
