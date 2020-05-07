@@ -14,6 +14,8 @@ input   [15:0]    data_in;
 
 output reg [15:0] data_out; // internal registers 
 
+output reg rdy;
+
 reg [11:0]  count = 0; 
 
 reg [15:0] FIFO [0:4095]; 
@@ -83,7 +85,7 @@ else
 					count = write_counter - read_counter; 
 				
 				if(full)
-					ready = 0;
+					rdy = 0;
 			end
 	end		
 end 
