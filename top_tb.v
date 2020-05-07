@@ -1,7 +1,7 @@
 `timescale 1ns / 1ns
 module top_tb;
 
-reg        tim_out, ready, we, busy_n, clk, reset_n;
+reg        tim_out, we, busy_n, clk, reset_n;
 reg[1:0]   ack_nack;
 reg[11:0]  seq;
 reg[127:0] din;
@@ -16,7 +16,7 @@ always #10 clk = ~clk;
 
 initial
 begin
-  {reset_n, busy_n, we, tim_out, acknak, ready} = 7'b0100000;
+  {reset_n, busy_n, we, tim_out, ack_nack, ready} = 7'b0100000;
   seq = 0;
   din = 128'h400000010000000ffdaff04012345678; //memory write request TLP
   #1 reset_n = 1;                    //Turn off reset, active low
