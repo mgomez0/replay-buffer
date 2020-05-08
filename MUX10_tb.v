@@ -26,6 +26,7 @@ initial
         #5 s = 4'h7;
         #5 s = 4'h8;
         #5 s = 4'h9;
+        #10 $stop;
     end
 
 initial 
