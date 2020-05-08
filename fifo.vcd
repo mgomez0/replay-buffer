@@ -1,0 +1,209 @@
+$date
+	Fri May  8 13:49:22 2020
+$end
+
+$version
+	Synopsys VCS version O-2018.09-SP2-3_Full64
+$end
+
+$timescale
+	1ps
+$end
+
+$comment Csum: 1 ad3c588cce271ddb $end
+
+
+$scope module fifo_tb $end
+$var reg 1 ! clk $end
+$var reg 16 " data_in [15:0] $end
+$var reg 2 # rd [1:0] $end
+$var reg 1 $ wr $end
+$var reg 1 % en $end
+$var reg 1 & rst $end
+$var reg 1 ' tim_out $end
+$var reg 1 ( rep $end
+$var wire 16 ) data_out [15:0] $end
+$var wire 1 * rdy $end
+$var wire 12 + num_packets_to_replay [11:0] $end
+$var wire 1 , empty $end
+$var wire 1 - full $end
+$var wire 1 . seq $end
+$var wire 1 / replay_index $end
+
+$scope module uut $end
+$var wire 1 ! clk $end
+$var wire 1 $ wr $end
+$var wire 1 % en $end
+$var wire 1 & rst $end
+$var wire 1 0 tim_out $end
+$var wire 1 1 rep $end
+$var wire 2 # rd [1:0] $end
+$var wire 12 2 seq [11:0] $end
+$var wire 12 3 replay_index [11:0] $end
+$var wire 1 , empty $end
+$var wire 1 - full $end
+$var wire 16 " data_in [15:0] $end
+$var reg 16 ) data_out [15:0] $end
+$var reg 1 * rdy $end
+$var reg 12 4 last_seq_written [11:0] $end
+$var reg 12 + num_packets_to_replay [11:0] $end
+$var reg 12 5 count [11:0] $end
+$var reg 12 6 read_counter [11:0] $end
+$var reg 12 7 write_counter [11:0] $end
+$upscope $end
+
+$upscope $end
+
+$enddefinitions $end
+
+#0
+$dumpvars
+0!
+0%
+0-
+z/
+1&
+z.
+x,
+x*
+0$
+b000000000000 5
+b0000000000000000 "
+bxxxxxxxxxxxxxxxx )
+b000000000001 4
+b000000000000 +
+b00 #
+b000000000001 6
+bxxxxxxxxxxxx 2
+bxxxxxxxxxxxx 3
+b000000000001 7
+x1
+x0
+x(
+x'
+$end
+b00000000000z 2
+b00000000000z 3
+1,
+#10000
+1!
+#20000
+0!
+#30000
+1!
+#40000
+0!
+#50000
+1!
+#60000
+0!
+#70000
+1!
+#80000
+0!
+#90000
+1!
+#100000
+1%
+0!
+#110000
+1!
+b0000000000000000 )
+1*
+#120000
+0&
+1$
+0!
+#130000
+1!
+b000000000010 7
+b000000000001 5
+0,
+#140000
+b0000000000000001 "
+0!
+#150000
+1!
+b000000000011 7
+b000000000010 5
+#160000
+b0000000000000010 "
+0!
+#170000
+1!
+b000000000100 7
+b000000000011 5
+#180000
+b0000000000000011 "
+0!
+#190000
+1!
+b000000000101 7
+b000000000100 5
+#200000
+b0000000000000100 "
+0!
+#210000
+1!
+b000000000110 7
+b000000000101 5
+#220000
+0$
+b10 #
+0!
+#230000
+1!
+bxxxxxxxxxxxx 6
+bxxxxxxxxxxxx +
+#240000
+0!
+#250000
+1!
+#260000
+0!
+#270000
+1!
+#280000
+0!
+#290000
+1!
+#300000
+0!
+#310000
+1!
+#320000
+0!
+#330000
+1!
+#340000
+0!
+#350000
+1!
+#360000
+0!
+#370000
+1!
+#380000
+0!
+#390000
+1!
+#400000
+0!
+#410000
+1!
+#420000
+0!
+#430000
+1!
+#440000
+0!
+#450000
+1!
+#460000
+0!
+#470000
+1!
+#480000
+0!
+#490000
+1!

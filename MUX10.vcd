@@ -1,0 +1,90 @@
+$date
+	Fri May  8 12:49:17 2020
+$end
+
+$version
+	Synopsys VCS version O-2018.09-SP2-3_Full64
+$end
+
+$timescale
+	1s
+$end
+
+$comment Csum: 1 873b73e0b5785273 $end
+
+
+$scope module MUX10_tb $end
+$var reg 16 ! d0 [15:0] $end
+$var reg 16 " d1 [15:0] $end
+$var reg 16 # d2 [15:0] $end
+$var reg 16 $ d3 [15:0] $end
+$var reg 16 % d4 [15:0] $end
+$var reg 16 & d5 [15:0] $end
+$var reg 16 ' d6 [15:0] $end
+$var reg 16 ( d7 [15:0] $end
+$var reg 16 ) d8 [15:0] $end
+$var reg 16 * d9 [15:0] $end
+$var reg 4 + s [3:0] $end
+$var wire 16 , y [15:0] $end
+
+$scope module u1 $end
+$var wire 16 ! d0 [15:0] $end
+$var wire 16 " d1 [15:0] $end
+$var wire 16 # d2 [15:0] $end
+$var wire 16 $ d3 [15:0] $end
+$var wire 16 % d4 [15:0] $end
+$var wire 16 & d5 [15:0] $end
+$var wire 16 ' d6 [15:0] $end
+$var wire 16 ( d7 [15:0] $end
+$var wire 16 ) d8 [15:0] $end
+$var wire 16 * d9 [15:0] $end
+$var wire 4 + s [3:0] $end
+$var reg 16 , y [15:0] $end
+$upscope $end
+
+$upscope $end
+
+$enddefinitions $end
+
+#0
+$dumpvars
+b0000000000001010 !
+b0000000000001011 "
+b0000000000001100 #
+b0000000000001101 $
+b0000000000001110 %
+b0000000000001111 &
+b0000000000000001 '
+b0000000000000010 (
+b0000000000000011 )
+b0000000000000100 *
+b0000 +
+b0000000000001010 ,
+$end
+#5
+b0001 +
+b0000000000001011 ,
+#10
+b0010 +
+b0000000000001100 ,
+#15
+b0011 +
+b0000000000001101 ,
+#20
+b0100 +
+b0000000000001110 ,
+#25
+b0101 +
+b0000000000001111 ,
+#30
+b0110 +
+b0000000000000001 ,
+#35
+b0111 +
+b0000000000000010 ,
+#40
+b1000 +
+b0000000000000011 ,
+#45
+b1001 +
+b0000000000000100 ,
