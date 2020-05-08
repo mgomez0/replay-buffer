@@ -11,7 +11,7 @@ module lcrc_32 (in, reset, clk, final_out);
 	reg [(PACKET_SIZE-1):0] buffer;				// The register to hold the inputted packet that has been formatted for processing in the CRC
 	reg [31:0] crc;				    			// The temporary CRC buffer that crc_cycle uses and eventually the result
 	
-	always @ (negedge clk)
+	initial
 	begin
 		bit_inverter(in, buffer);				// Inverts the inputted packet for use in the CRC and places it in the buffer register
 		generate_crc(buffer, crc);				// Takes the buffer register value and sends it for CRC creation

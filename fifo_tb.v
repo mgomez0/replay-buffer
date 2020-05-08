@@ -8,7 +8,7 @@ module fifo_tb;
 
  reg [15:0] data_in;
 
- reg rd;
+ reg [1:0] rd;
 
  reg wr;
 
@@ -16,9 +16,15 @@ module fifo_tb;
 
  reg rst;
 
+ reg tim_out, rep;
+
  // Outputs
 
  wire [15:0] data_out;
+
+ wire rdy;
+
+ wire [11:0] num_packets_to_replay;
 
  wire empty;
 
@@ -26,7 +32,7 @@ module fifo_tb;
 
  // Instantiate the Unit Under Test (UUT)
 
- fifo uut (.clk(clk), .data_in(data_in), .rd(rd), .wr(wr), .en(en), .data_out(data_out), .rst(rst), .empty(empty), .full(full));
+ fifo uut (clk, data_in, rd, wr, en, data_out, rst, empty, full, seq, tim_out, rdy,num_packets_to_replay, replay_index, rep);
 
  initial begin
 
@@ -82,7 +88,9 @@ module fifo_tb;
 
    wr = 1'b0;
 
-   rd = 1'b1;  
+   rd = 01'b1; //ack
+
+   #100;
 
    end 
 
@@ -91,7 +99,7 @@ module fifo_tb;
 // Run simulation for 500 ns.  
    initial #500 $finish;
    
-   // Dump all waveforms to d_latch.vcd
+   // Dump all waveforms to fifo.vcd
    initial
       begin
                   $dumpfile("fifo.vcd");
