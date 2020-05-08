@@ -1,9 +1,9 @@
-module mux10;
+module MUX10_tb;
 reg[15:0]  d0, d1, d2, d3, d4, d5, d6, d7, d8, d9;
 reg[3:0]   s;
 wire[15:0] y;
 
-
+mux10 u1 (d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, s, y);
 initial 
     begin
         d0 = 16'h000A;
