@@ -3,10 +3,10 @@ module replay_buffer(busy_n, clk, reset_n, ack_nack, seq, tim_out, ready, we, di
 input busy_n, clk, reset_n, tim_out, we;
 input [1:0] ack_nack;
 input [11:0] seq;
-input[127:0] din;
+input[159:0] din;
 output  [15:0] dout;
 output ready;
-wire [159:0] crc_output;
+//wire [159:0] crc_output;
 wire [3:0] crc_num;
 wire [15:0] mux_output;
 wire [11:0] num_to_rep;
@@ -26,10 +26,10 @@ FSM control(.reset_n(reset_n), .clk(clk), .busy_n(busy_n), .we_i(we), .seq(seq),
 .rdy_i(rdy), .rdy_o(ready), .acknak_o(ack_nack_internal), .crc_num(crc_num), .num_to_rep(num_to_rep), .count(replay_index),
 .rep(rep)); //crc_num output control signal to mux
 
-lcrc_32 crc(.in(din), .reset(reset_internal), .clk(clk), .final_out(crc_output));
+//lcrc_32 crc(.in(din), .reset(reset_internal), .clk(clk), .final_out(crc_output));
 
-mux10 mx(.d0(crc_output[15:0]), .d1(crc_output[31:16]), .d2(crc_output[47:32]), .d3(crc_output[63:48]), .d4(crc_output[79:64]), 
-    .d5(crc_output[95:80]), .d6(crc_output[111:96]), .d7(crc_output[127:112]), .d8(crc_output[143:128]), .d9(crc_output[159:144]),
+mux10 mx(.d0(din[15:0]), .d1(din[31:16]), .d2(din[47:32]), .d3(din[63:48]), .d4(din[79:64]), 
+    .d5(din[95:80]), .d6(din[111:96]), .d7(din[127:112]), .d8(din[143:128]), .d9(din[159:144]),
     .s(crc_num), .y(mux_output));
 
 endmodule

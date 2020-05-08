@@ -16,16 +16,16 @@ output reg [15:0] data_out; // internal registers
 
 output reg rdy;
 
-reg [11:0] last_seq_written = 0;
+reg [11:0] last_seq_written = 1;
 
-output reg [11:0] num_packets_to_replay;
+output reg [11:0] num_packets_to_replay = 0;
 
 reg [11:0]  count = 0; 
 
-reg [15:0] FIFO [0:4095];                     
+reg [15:0] FIFO [1:4096];                     
 
-reg [11:0]      read_counter = 0, 
-                write_counter = 0; 
+reg [11:0]      read_counter = 1, 
+                write_counter = 1; 
 				
 		
 
@@ -44,8 +44,8 @@ else
 		if (rst) //reset and initialize 
 			begin 
 				data_out = 0;
-				read_counter = 0; 
-				write_counter = 0;
+				read_counter = 1; 
+				write_counter = 1;
 				rdy = 1; 
 			end
 		
@@ -57,16 +57,16 @@ else
 				// with DLLP to purged replay buffer of received packets
 				if(rd == 2'b01 && count != 0 && !wr) 	
 					begin
-						read_counter = read_counter + seq;
+						read_counter = read_counter + (seq * 10);
 						rdy = 0;
 					end
 				// receiver sends NACK DLLP, retransmit all TLP in buffer with EARLIER
 				//sequence number than seq[11:0] supplied with NACK DLLP
 				else if ( (tim_out || rd == 2'b10) && count != 0 && !wr ) 											
 					begin
-						read_counter = read_counter + (seq * 10);
+						read_counter = read_counter + ((seq - ((read_counter - 1) / 10)) * 10);
 						
-						num_packets_to_replay = ((last_seq_written - seq)*10) -1;
+						num_packets_to_replay = ((last_seq_written - seq)*10) - 1;
 					end							
 				else if (rep && !wr)
 					begin
@@ -77,8 +77,8 @@ else
 					
 					begin
 						FIFO[write_counter]  = data_in; 	   
-						write_counter  = write_counter + seq; 	
-						last_seq_written = last_seq_written + 1;
+						write_counter  = write_counter + 1; 	  //16-bit chunks of packet
+						if((write_counter%11) == 0) last_seq_written = last_seq_written + 1;  //Incrament after each 10 write cycles
 					end 
 
 				if (write_counter == 4096) 

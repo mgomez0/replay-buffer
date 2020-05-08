@@ -2,7 +2,6 @@
 // Date: 04/11/2020
 // Description: This program takes an inputted packet, inverts the individual bits in each byte of a copy of the inputted packet, 
 // generates a crc code from the copy, then inverts the bytes of the generated crc, attaches the finished crc
-`timescale 1ns / 1ns
 module lcrc_32 (in, reset, clk, final_out);
  
 	parameter PACKET_SIZE = 128;				// The number of bits in the passed in packet
@@ -12,7 +11,8 @@ module lcrc_32 (in, reset, clk, final_out);
 	reg [(PACKET_SIZE-1):0] buffer;				// The register to hold the inputted packet that has been formatted for processing in the CRC
 	reg [31:0] crc;				    			// The temporary CRC buffer that crc_cycle uses and eventually the result
 	
-	initial begin
+	always @ (negedge clk)
+	begin
 		bit_inverter(in, buffer);				// Inverts the inputted packet for use in the CRC and places it in the buffer register
 		generate_crc(buffer, crc);				// Takes the buffer register value and sends it for CRC creation
 		bit_inverter(crc, buffer);				// Sends the CRC to get inverted, as it should
