@@ -40,7 +40,7 @@ begin
   // #20;                               //enter s4ra, send counter = 0, send rep =1, exit s4ra
   // #20;                               //enter s4rb, rep = 0, incrament counter, exit s4rb
   // #1560;                             //repeat 38 more times, exit to s1. 
-  // #10 $stop;                         //end
+  #10 $stop;                           //end
 end
 
 
