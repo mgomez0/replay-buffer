@@ -88,7 +88,7 @@ module fifo_tb;
 
    wr = 1'b0;
 
-   rd = 01'b10; //nack
+   rep = 1'b1; //nack
    #100;
 
    end 
