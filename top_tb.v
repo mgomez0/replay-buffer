@@ -4,7 +4,7 @@ module top_tb;
 reg        tim_out, we, busy_n, clk, reset_n;
 reg[1:0]   ack_nack;
 reg[11:0]  seq;
-reg[160:0] din;
+reg[159:0] din;
 
 
 wire[15:0] dout;
